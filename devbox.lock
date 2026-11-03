@@ -1,0 +1,60 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "cargo-llvm-cov": {
+      "resolved": "github:NixOS/nixpkgs/f20cd90e28fe0403873f473b29e42662cd86e8c4?narHash=sha256-EjZqHKObBfIOeHZnMRVV87HB3pPq%2FWBkmRJWyFxmZu8%3D#cargo-llvm-cov",
+      "source": "nixpkg"
+    },
+    "git": {
+      "resolved": "github:NixOS/nixpkgs/f20cd90e28fe0403873f473b29e42662cd86e8c4?narHash=sha256-EjZqHKObBfIOeHZnMRVV87HB3pPq%2FWBkmRJWyFxmZu8%3D#git",
+      "source": "nixpkg"
+    },
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2026-10-16T02:15:57Z",
+      "resolved": "github:NixOS/nixpkgs/f20cd90e28fe0403873f473b29e42662cd86e8c4?lastModified=1792116957&narHash=sha256-EjZqHKObBfIOeHZnMRVV87HB3pPq%2FWBkmRJWyFxmZu8%3D"
+    },
+    "rustup@latest": {
+      "last_modified": "2026-11-03T03:15:56Z",
+      "plugin_version": "0.0.1",
+      "resolved": "github:NixOS/nixpkgs/9a6cbf4722bdbbef65f9e0400452ca088e31dc4b#rustup",
+      "source": "devbox-search",
+      "version": "1.29.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kfyhaqzqav5igarl3ka8sydcwqf2d6l0-rustup-1.29.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kfyhaqzqav5igarl3ka8sydcwqf2d6l0-rustup-1.29.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/wz7m1xikn0lz9jh288kn5l3yil93y31d-rustup-1.29.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/wz7m1xikn0lz9jh288kn5l3yil93y31d-rustup-1.29.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/qlbksf73w77ifwrr466r2f10g60kaz1d-rustup-1.29.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/qlbksf73w77ifwrr466r2f10g60kaz1d-rustup-1.29.2"
+        }
+      }
+    },
+    "semgrep": {
+      "resolved": "github:NixOS/nixpkgs/f20cd90e28fe0403873f473b29e42662cd86e8c4?narHash=sha256-EjZqHKObBfIOeHZnMRVV87HB3pPq%2FWBkmRJWyFxmZu8%3D#semgrep",
+      "source": "nixpkg"
+    }
+  }
+}

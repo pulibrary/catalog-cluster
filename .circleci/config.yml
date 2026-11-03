@@ -1,0 +1,48 @@
+version: 2.1
+orbs:
+  coveralls: coveralls/coveralls@2.2.6
+  rust: circleci/rust@2.0.0
+jobs:
+  clippy:
+    docker:
+      - image: cimg/rust:1.99.1
+    steps:
+      - checkout
+      - rust/clippy
+  format:
+    docker:
+      - image: cimg/rust:1.99.1
+    steps:
+      - checkout
+      - rust/format
+  semgrep:
+    docker:
+        - image: returntocorp/semgrep
+    steps:
+      - checkout
+      - run:
+          name: Check code against community-provided and custom semgrep rules
+          command: semgrep ci --config auto --config .semgrep.yml
+  test:
+    docker:
+      - image: cimg/rust:1.99.1
+    steps:
+      - checkout
+      - run:
+          name: Install cargo-llvm-cov
+          command: cargo install cargo-llvm-cov --locked
+      - run:
+          name: Run tests with coverage
+          command: cargo llvm-cov --lcov --output-path lcov.info
+      - coveralls/upload:
+          coverage_file: lcov.info
+          coverage_format: lcov
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - clippy
+      - format
+      - semgrep
+      - test
