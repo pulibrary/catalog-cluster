@@ -16,12 +16,20 @@ impl AppEnvironment {
     pub fn from<'a>(_env: impl EnvVar<'a>) -> AppEnvironment {
         AppEnvironment::Development
     }
+
+    pub fn is_local(&self) -> bool {
+        matches!(self, Self::Development | Self::Test)
+    }
+
+    pub fn is_deployed(&self) -> bool {
+        matches!(self, Self::Production | Self::Staging)
+    }
 }
 
-impl TryFrom<AppEnvironment> for PgConnection {
+impl TryFrom<&AppEnvironment> for PgConnection {
     type Error = CatalogClusterError;
 
-    fn try_from(environment: AppEnvironment) -> Result<Self, Self::Error> {
+    fn try_from(environment: &AppEnvironment) -> Result<Self, Self::Error> {
         match environment {
             AppEnvironment::Development => {
                 dotenv().map_err(|_| Self::Error::CouldNotReadDotEnvFile)?;
