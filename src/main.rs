@@ -6,7 +6,7 @@ async fn main() {
     let environment = AppEnvironment::from(std::env::var);
     if matches!(environment, AppEnvironment::Development) {
         let _connection = environment
-            .connect()
+            .database_connection()
             .await
             .expect("Could not connect to the database");
         println!("We connected to the database!");

@@ -27,7 +27,7 @@ impl AppEnvironment {
 }
 
 impl AppEnvironment {
-    pub async fn connect(&self) -> Result<AsyncPgConnection, CatalogClusterError> {
+    pub async fn database_connection(&self) -> Result<AsyncPgConnection, CatalogClusterError> {
         match self {
             AppEnvironment::Development => {
                 dotenv().map_err(|_| CatalogClusterError::CouldNotReadDotEnvFile)?;
