@@ -13,8 +13,13 @@ pub enum AppEnvironment {
 }
 
 impl AppEnvironment {
-    pub fn from<'a>(_env: impl EnvVar<'a>) -> AppEnvironment {
-        AppEnvironment::Development
+    pub fn from<'a>(env: impl EnvVar<'a>) -> AppEnvironment {
+        match env("APP_ENV").as_deref() {
+            Ok("production") => Self::Production,
+            Ok("staging") => Self::Staging,
+            Ok("test") => Self::Test,
+            _ => Self::Development,
+        }
     }
 
     pub fn is_local(&self) -> bool {
@@ -55,6 +60,33 @@ mod tests {
         assert_eq!(
             AppEnvironment::from(fake_environment(&envvar_values)),
             AppEnvironment::Development
+        );
+    }
+
+    #[test]
+    fn it_can_read_staging_from_app_env() {
+        let envvar_values = HashMap::from([("APP_ENV", "staging")]);
+        assert_eq!(
+            AppEnvironment::from(fake_environment(&envvar_values)),
+            AppEnvironment::Staging
+        );
+    }
+
+    #[test]
+    fn it_can_read_prod_from_app_env() {
+        let envvar_values = HashMap::from([("APP_ENV", "production")]);
+        assert_eq!(
+            AppEnvironment::from(fake_environment(&envvar_values)),
+            AppEnvironment::Production
+        );
+    }
+
+    #[test]
+    fn it_can_read_test_from_app_env() {
+        let envvar_values = HashMap::from([("APP_ENV", "test")]);
+        assert_eq!(
+            AppEnvironment::from(fake_environment(&envvar_values)),
+            AppEnvironment::Test
         );
     }
 }
