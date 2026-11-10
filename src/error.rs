@@ -2,7 +2,9 @@
 
 #[derive(Debug, PartialEq)]
 pub enum CatalogClusterError {
+    CouldNotBindToPort,
     CouldNotReadDotEnvFile,
     CouldNotConnectToTheDB,
+    CouldNotStartHTTPServer,
     MissingEnvVar(&'static str),
 }
