@@ -5,8 +5,10 @@ use std::env;
 async fn main() {
     let environment = AppEnvironment::from(std::env::var);
     if matches!(environment, AppEnvironment::Development) {
-        let _connection =
-            environment.connect().await.expect("Could not connect to the database");
+        let _connection = environment
+            .connect()
+            .await
+            .expect("Could not connect to the database");
         println!("We connected to the database!");
     }
     println!("Starting server");
