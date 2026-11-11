@@ -1,7 +1,9 @@
 //! This module tracks which environment we are running the code in (local development, tests, staging, or production)
 
 use crate::{CatalogClusterError, envvar::EnvVar};
-use diesel_async::{AsyncConnection, AsyncPgConnection};
+use diesel_async::AsyncPgConnection;
+use diesel_async::pooled_connection::AsyncDieselConnectionManager;
+use diesel_async::pooled_connection::deadpool::Pool;
 use dotenvy::dotenv;
 
 #[derive(Debug, PartialEq)]
@@ -32,14 +34,17 @@ impl AppEnvironment {
 }
 
 impl AppEnvironment {
-    pub async fn database_connection(&self) -> Result<AsyncPgConnection, CatalogClusterError> {
+    pub async fn database_connection(
+        &self,
+    ) -> Result<Pool<AsyncPgConnection>, CatalogClusterError> {
         match self {
             AppEnvironment::Development => {
                 dotenv().map_err(|_| CatalogClusterError::CouldNotReadDotEnvFile)?;
                 let database_url = std::env::var("DATABASE_URL")
                     .map_err(|_| CatalogClusterError::MissingEnvVar("DATABASE_URL"))?;
-                AsyncPgConnection::establish(&database_url)
-                    .await
+                let config = AsyncDieselConnectionManager::<AsyncPgConnection>::new(&database_url);
+                Pool::builder(config)
+                    .build()
                     .map_err(|_| CatalogClusterError::CouldNotConnectToTheDB)
             }
             _ => todo!(),
